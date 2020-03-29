@@ -11,11 +11,7 @@
       />
     </div>
     <div id="todo-container">
-      <div
-        class="todo-item"
-        v-for="(item, index) in todosTemp"
-        :key="item.todo"
-      >
+      <div class="todo-item" v-for="(item, index) in todosTemp" :key="item.id">
         <div class="todo-group">
           <input type="checkbox" class="cek" v-model="item.active" />
           <div class="todo-name" v-if="!item.editing" @dblclick="editing(item)">
@@ -59,8 +55,8 @@ export default {
   data: () => {
     return {
       todos: [
-        { todo: "item 1", active: true, editing: false },
-        { todo: "item 2", active: false, editing: false }
+        { id: 1, todo: "item 1", active: true, editing: false },
+        { id: 2, todo: "item 2", active: false, editing: false }
       ],
       filterType: "all",
       newTodo: "",
