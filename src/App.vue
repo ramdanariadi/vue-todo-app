@@ -1,28 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Logo />
+    <TodoList />
+    <FooterTodo />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Logo from "./components/Logo";
+import TodoList from "./components/TodoList";
+import FooterTodo from "./components/FooterTodo";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    TodoList,
+    Logo,
+    FooterTodo
   }
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background-color: aquamarine;
+  width: 763px;
+  margin: auto;
+}
+#main-logo {
+  margin: auto;
+  background-color: black;
 }
 </style>
