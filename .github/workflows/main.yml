@@ -21,11 +21,3 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Install npm depedencies
-        run: npm install
-
-      # Run app
-      - name: run app
-        run: npm start
