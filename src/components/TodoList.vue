@@ -10,13 +10,14 @@
         placeholder="what should you do.."
       />
     </div>
+    <div class="flash-error-container">
+      <span class="error-message" v-if="showFlashMessage">what should do cannot null</span>
+    </div>
     <div id="todo-container">
       <div class="todo-item" v-for="(item, index) in todosTemp" :key="item.id">
         <div class="todo-group">
           <input type="checkbox" class="cek" v-model="item.active" />
-          <div class="todo-name" v-if="!item.editing" @dblclick="editing(item)">
-            {{ item.todo }}
-          </div>
+          <div class="todo-name" v-if="!item.editing" @dblclick="editing(item)">{{ item.todo }}</div>
           <input
             name="new-todo"
             type="text"
@@ -31,19 +32,11 @@
         <span class="delete-todo" v-on:click="removeTodo(index)">&times;</span>
       </div>
       <div id="button-action-container">
-        <button class="btn btn-success" v-on:click="all">All</button>
-        <button class="btn btn-success" v-on:click="notActivedTodos">
-          Completed
-        </button>
-        <button class="btn btn-warning" v-on:click="activedTodos">
-          Not Completed
-        </button>
-        <button class="btn btn-danger" v-on:click="clear">
-          Clear Completed
-        </button>
-        <span class="todo-progress"
-          >{{ progress }} of {{ countTodos }} Completed</span
-        >
+        <button class="btn btn-primary" v-on:click="all">All</button>
+        <button class="btn btn-success" v-on:click="notActivedTodos">Completed</button>
+        <button class="btn btn-warning" v-on:click="activedTodos">Not Completed</button>
+        <button class="btn btn-danger" v-on:click="clear">Clear Completed</button>
+        <span class="todo-progress">{{ progress }} of {{ countTodos }} Completed</span>
       </div>
     </div>
   </div>
@@ -59,8 +52,9 @@ export default {
         { id: 2, todo: "item 2", active: false, editing: false }
       ],
       filterType: "all",
+      showFlashMessage: false,
       newTodo: "",
-      editTodo: ""
+      cacheTodo: ""
     };
   },
   computed: {
@@ -106,17 +100,26 @@ export default {
       });
     },
     addNewTodo: function() {
-      this.todos.push({
-        todo: this.newTodo,
-        active: false,
-        editing: false
-      });
+      if (this.newTodo !== "") {
+        this.todos.push({
+          todo: this.newTodo,
+          active: false,
+          editing: false
+        });
+        this.showFlashMessage = false;
+      } else {
+        this.showFlashMessage = true;
+      }
       this.newTodo = "";
     },
     editing: function(item) {
       item.editing = true;
+      this.cacheTodo = item.todo;
     },
     finishEditing: function(item) {
+      if (item.todo === "") {
+        item.todo = this.cacheTodo;
+      }
       item.editing = false;
     },
     toast: function() {
@@ -134,6 +137,12 @@ export default {
 </script>
 
 <style scoped>
+.flash-error-container {
+  padding: 5px 22px 0;
+}
+.error-message {
+  color: #f5424e;
+}
 #new-todo-container {
   display: flex;
   justify-content: center;
@@ -223,6 +232,7 @@ export default {
 }
 
 .btn {
+  margin: 1px;
   padding: 8px;
   color: #ffffff;
   border-radius: 8px;
